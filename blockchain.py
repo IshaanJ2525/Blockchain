@@ -37,7 +37,7 @@ def add_patient_visit_advanced(patient_name, treatment, cost, date_of_visit):
     st.info(f"Visit added for {patient_name} on {date_of_visit} for treatment {treatment} costing ${cost}.")
     st.text_area("Visit hash:", visit_hash, height=50)
 
-# Function to apply theme
+# Function to apply the theme based on mode
 def apply_theme(dark_mode):
     if dark_mode:
         st.markdown(
@@ -57,33 +57,19 @@ def apply_theme(dark_mode):
                     padding: 10px 20px;
                     border-radius: 5px;
                 }
-                .stTextInput input {
-                    background-color: #333333;
-                    color: white;
-                    border: none;
-                }
-                .stTextArea textarea {
-                    background-color: #333333;
-                    color: white;
-                    border: none;
-                }
-                .stNumberInput input {
-                    background-color: #333333;
-                    color: white;
-                    border: none;
-                }
-                .stDateInput input {
-                    background-color: #333333;
-                    color: white;
-                    border: none;
-                }
-                .stSelectbox select {
+                .stTextInput input, .stTextArea textarea, .stNumberInput input, .stDateInput input, .stSelectbox select {
                     background-color: #333333;
                     color: white;
                     border: none;
                 }
                 .stMarkdown {
                     color: #e1e1e1;
+                }
+                .stTextInput, .stTextArea, .stNumberInput, .stDateInput, .stSelectbox {
+                    border-radius: 5px;
+                }
+                .stButton>button:hover {
+                    background-color: #005bb5;
                 }
             </style>
             """,
@@ -107,33 +93,19 @@ def apply_theme(dark_mode):
                     padding: 10px 20px;
                     border-radius: 5px;
                 }
-                .stTextInput input {
-                    background-color: white;
-                    color: #333333;
-                    border: 1px solid #004080;
-                }
-                .stTextArea textarea {
-                    background-color: white;
-                    color: #333333;
-                    border: 1px solid #004080;
-                }
-                .stNumberInput input {
-                    background-color: white;
-                    color: #333333;
-                    border: 1px solid #004080;
-                }
-                .stDateInput input {
-                    background-color: white;
-                    color: #333333;
-                    border: 1px solid #004080;
-                }
-                .stSelectbox select {
+                .stTextInput input, .stTextArea textarea, .stNumberInput input, .stDateInput input, .stSelectbox select {
                     background-color: white;
                     color: #333333;
                     border: 1px solid #004080;
                 }
                 .stMarkdown {
                     color: #333333;
+                }
+                .stTextInput, .stTextArea, .stNumberInput, .stDateInput, .stSelectbox {
+                    border-radius: 5px;
+                }
+                .stButton>button:hover {
+                    background-color: #005bb5;
                 }
             </style>
             """,
@@ -143,18 +115,20 @@ def apply_theme(dark_mode):
 # Set the page configuration
 st.set_page_config(page_title="Hospital Ledger System", layout="wide")
 
-# Sidebar to switch between tabs
-selected_tab = st.selectbox("Choose an action", ["Add Visit", "Search Patient"])
+# Sidebar for theme toggle
+dark_mode = st.sidebar.checkbox("🌙 Dark Mode", value=False)
 
-# Toggle for light/dark mode
-dark_mode = st.sidebar.radio("Select Mode", ["Light Mode", "Dark Mode"]) == "Dark Mode"
-
-# Apply the selected theme
+# Apply theme based on the toggle value
 apply_theme(dark_mode)
 
 # Main content of the app
+st.title("Hospital Ledger System")
+
+# Sidebar to switch between tabs
+selected_tab = st.selectbox("Choose an action", ["Add Visit", "Search Patient"])
+
 if selected_tab == "Add Visit":
-    st.title("Add New Patient Visit")
+    st.header("Add New Patient Visit")
     
     # Inputs for patient visit details (organize them in columns for a cleaner look)
     col1, col2 = st.columns(2)
@@ -162,7 +136,7 @@ if selected_tab == "Add Visit":
         patient_name = st.text_input("Enter the patient's name", placeholder="John Doe")
         treatment = st.text_input("Enter the treatment received", placeholder="Treatment description")
     with col2:
-        cost = st.number_input("Enter the cost of the treatment ($)", min_value=0.0, format="%.2f")
+        cost = st.number_input("Enter the cost of the treatment (₹)", min_value=0.0, format="%.2f")
         date_of_visit = st.date_input("Enter the date of visit")
 
     # Button to add the visit
@@ -173,7 +147,7 @@ if selected_tab == "Add Visit":
             st.warning("Please fill all fields!")
 
 elif selected_tab == "Search Patient":
-    st.title("Search for Patient Visits")
+    st.header("Search for Patient Visits")
     
     # Input field for searching patient name
     search_patient = st.text_input("Enter patient name to search for", placeholder="John Doe").lower()
