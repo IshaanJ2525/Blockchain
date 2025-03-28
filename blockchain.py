@@ -37,15 +37,125 @@ def add_patient_visit_advanced(patient_name, treatment, cost, date_of_visit):
     st.info(f"Visit added for {patient_name} on {date_of_visit} for treatment {treatment} costing ${cost}.")
     st.text_area("Visit hash:", visit_hash, height=50)
 
-# Streamlit UI elements to input patient details and add a visit
-st.title("Hospital Ledger System")
+# Function to apply theme
+def apply_theme(dark_mode):
+    if dark_mode:
+        st.markdown(
+            """
+            <style>
+                body {
+                    background-color: #2b2b2b;
+                    color: #e1e1e1;
+                }
+                .css-1v0mbdj {
+                    background-color: #003366;
+                }
+                .stButton>button {
+                    background-color: #003366;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                }
+                .stTextInput input {
+                    background-color: #333333;
+                    color: white;
+                    border: none;
+                }
+                .stTextArea textarea {
+                    background-color: #333333;
+                    color: white;
+                    border: none;
+                }
+                .stNumberInput input {
+                    background-color: #333333;
+                    color: white;
+                    border: none;
+                }
+                .stDateInput input {
+                    background-color: #333333;
+                    color: white;
+                    border: none;
+                }
+                .stSelectbox select {
+                    background-color: #333333;
+                    color: white;
+                    border: none;
+                }
+                .stMarkdown {
+                    color: #e1e1e1;
+                }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+    else:
+        st.markdown(
+            """
+            <style>
+                body {
+                    background-color: #f0f0f0;
+                    color: #333333;
+                }
+                .css-1v0mbdj {
+                    background-color: #004080;
+                }
+                .stButton>button {
+                    background-color: #004080;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                }
+                .stTextInput input {
+                    background-color: white;
+                    color: #333333;
+                    border: 1px solid #004080;
+                }
+                .stTextArea textarea {
+                    background-color: white;
+                    color: #333333;
+                    border: 1px solid #004080;
+                }
+                .stNumberInput input {
+                    background-color: white;
+                    color: #333333;
+                    border: 1px solid #004080;
+                }
+                .stDateInput input {
+                    background-color: white;
+                    color: #333333;
+                    border: 1px solid #004080;
+                }
+                .stSelectbox select {
+                    background-color: white;
+                    color: #333333;
+                    border: 1px solid #004080;
+                }
+                .stMarkdown {
+                    color: #333333;
+                }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+
+# Set the page configuration
+st.set_page_config(page_title="Hospital Ledger System", layout="wide")
 
 # Sidebar to switch between tabs
 selected_tab = st.selectbox("Choose an action", ["Add Visit", "Search Patient"])
 
-if selected_tab == "Add Visit":
-    st.header("Add New Patient Visit")
+# Toggle for light/dark mode
+dark_mode = st.sidebar.radio("Select Mode", ["Light Mode", "Dark Mode"]) == "Dark Mode"
 
+# Apply the selected theme
+apply_theme(dark_mode)
+
+# Main content of the app
+if selected_tab == "Add Visit":
+    st.title("Add New Patient Visit")
+    
     # Inputs for patient visit details (organize them in columns for a cleaner look)
     col1, col2 = st.columns(2)
     with col1:
@@ -63,8 +173,8 @@ if selected_tab == "Add Visit":
             st.warning("Please fill all fields!")
 
 elif selected_tab == "Search Patient":
-    st.header("Search for Patient Visits")
-
+    st.title("Search for Patient Visits")
+    
     # Input field for searching patient name
     search_patient = st.text_input("Enter patient name to search for", placeholder="John Doe").lower()
 
