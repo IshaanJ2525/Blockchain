@@ -43,7 +43,7 @@ st.title("Hospital Ledger System")
 # Inputs for patient visit details
 patient_name = st.text_input("Enter the patient's name")
 treatment = st.text_input("Enter the treatment received")
-cost = st.number_input("Enter the cost of the treatment ($)", min_value=0.0, format="%.2f")
+cost = st.number_input("Enter the cost of the treatment (₹)", min_value=0.0, format="%.2f")
 date_of_visit = st.date_input("Enter the date of visit")
 
 # Button to add the visit
